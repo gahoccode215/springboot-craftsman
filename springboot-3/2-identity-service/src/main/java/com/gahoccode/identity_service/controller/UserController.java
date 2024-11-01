@@ -1,5 +1,6 @@
 package com.gahoccode.identity_service.controller;
 
+import com.gahoccode.identity_service.dto.request.APIResponse;
 import com.gahoccode.identity_service.dto.request.UserCreationRequest;
 import com.gahoccode.identity_service.dto.request.UserUpdateRequest;
 import com.gahoccode.identity_service.entity.User;
@@ -17,8 +18,10 @@ public class UserController {
     private UserService userService;
 
     @PostMapping()
-    public User createUser(@RequestBody @Valid UserCreationRequest request){
-        return userService.createUser(request);
+    public APIResponse<User> createUser(@RequestBody @Valid UserCreationRequest request){
+        APIResponse<User> apiResponse = new APIResponse<>();
+        apiResponse.setResult(userService.createUser(request));
+        return apiResponse;
     }
 
     @GetMapping()
