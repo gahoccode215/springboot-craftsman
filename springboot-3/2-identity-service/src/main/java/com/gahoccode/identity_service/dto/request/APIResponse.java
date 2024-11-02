@@ -15,6 +15,4 @@ public class APIResponse <T>{
     private int code = 1000;
     private String message;
     private T result;
-
-
 }
