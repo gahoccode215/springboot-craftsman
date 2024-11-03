@@ -11,6 +11,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,14 +24,15 @@ public class UserController {
     UserService userService;
 
     @PostMapping()
-    public APIResponse<User> createUser(@RequestBody @Valid UserCreationRequest request) {
-        APIResponse<User> apiResponse = new APIResponse<>();
+    public APIResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
+        APIResponse<UserResponse> apiResponse = new APIResponse<>();
         apiResponse.setResult(userService.createUser(request));
         return apiResponse;
     }
 
     @GetMapping()
     public List<User> getUser() {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
         return userService.getUsers();
     }
 

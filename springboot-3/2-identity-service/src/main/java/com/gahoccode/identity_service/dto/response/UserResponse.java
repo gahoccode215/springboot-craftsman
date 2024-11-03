@@ -1,21 +1,21 @@
 package com.gahoccode.identity_service.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.sql.Date;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserResponse {
-    private String id;
-    private String username;
-    private String password;
-    private String firstName;
-    private String lastName;
-    private Date dob;
+    String id;
+    String username;
+    String firstName;
+    String lastName;
+    Date dob;
+    Set<String> roles;
 }
