@@ -1,5 +1,6 @@
 package com.gahoccode.identity_service.dto.response;
 
+import com.gahoccode.identity_service.enums.Role;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -17,5 +18,5 @@ public class UserResponse {
     String firstName;
     String lastName;
     Date dob;
-    Set<String> roles;
+    Set<Role> roles;
 }
