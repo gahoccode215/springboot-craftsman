@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -19,6 +20,7 @@ public class UserUpdateRequest {
     private String firstName;
     private String lastName;
     private Date dob;
+    List<String> roles;
 
 
 }
