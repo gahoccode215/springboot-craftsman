@@ -19,7 +19,8 @@ public enum ErrorCode {
     USER_NOT_EXISTED(1005, "User existed.", HttpStatus.NOT_FOUND),
     UNAUTHENTICATED(1006, "Unauthenticated.", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(1007, "You do not have permission.", HttpStatus.FORBIDDEN),
-    KEY_LENGTH(1008, "The secret length must be at least 256 bits.", HttpStatus.BAD_REQUEST)
+    INVALID_DOB(1008, "Invalid date of birth", HttpStatus.BAD_REQUEST),
+    KEY_LENGTH(1009, "The secret length must be at least 256 bits.", HttpStatus.BAD_REQUEST)
     ;
     private int code;
     private String message;

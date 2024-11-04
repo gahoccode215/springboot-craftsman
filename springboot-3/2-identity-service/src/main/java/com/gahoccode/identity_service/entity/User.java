@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -21,7 +22,7 @@ public class User {
     String password;
     String firstName;
     String lastName;
-    Date dob;
+    LocalDate dob;
     @ManyToMany
     Set<Role> roles;
 

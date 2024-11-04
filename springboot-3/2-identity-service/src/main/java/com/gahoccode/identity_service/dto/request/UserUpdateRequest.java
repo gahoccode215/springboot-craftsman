@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -19,7 +20,7 @@ public class UserUpdateRequest {
     private String password;
     private String firstName;
     private String lastName;
-    private Date dob;
+    private LocalDate dob;
     List<String> roles;
 
 
