@@ -3,6 +3,7 @@ package com.gahoccode.identity_service.service;
 import com.gahoccode.identity_service.dto.request.AuthenticationRequest;
 import com.gahoccode.identity_service.dto.request.IntrospectRequest;
 import com.gahoccode.identity_service.dto.request.LogoutRequest;
+import com.gahoccode.identity_service.dto.request.RefreshRequest;
 import com.gahoccode.identity_service.dto.response.AuthenticationResponse;
 import com.gahoccode.identity_service.dto.response.IntrospectResponse;
 import com.gahoccode.identity_service.entity.InvalidatedToken;
@@ -79,7 +80,7 @@ public class AuthenticationService {
         Date expiryTime = signToken.getJWTClaimsSet().getExpirationTime();
         InvalidatedToken invalidatedToken = InvalidatedToken.builder()
                 .id(jit)
-                .expiryTime((java.sql.Date) expiryTime)
+                .expiryTime(expiryTime)
                 .build();
     }
 
@@ -93,6 +94,24 @@ public class AuthenticationService {
         if (invalidatedTokenRepository.existsById(signedJWT.getJWTClaimsSet().getJWTID()))
             throw new AppException(ErrorCode.UNAUTHORIZED);
         return signedJWT;
+    }
+
+    public AuthenticationResponse refreshToken(RefreshRequest request) throws ParseException, JOSEException {
+        var signJWT = verifyToken(request.getToken());
+        var jit = signJWT.getJWTClaimsSet().getJWTID();
+        var expiryTime = signJWT.getJWTClaimsSet().getExpirationTime();
+        InvalidatedToken invalidatedToken = InvalidatedToken.builder()
+                .id(jit)
+                .expiryTime(expiryTime)
+                .build();
+        var username = signJWT.getJWTClaimsSet().getSubject();
+        var user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
+        var token = generateToken(user);
+        return AuthenticationResponse.builder()
+                .token(token)
+                .authenticated(true)
+                .build();
     }
 
     private String generateToken(User user) throws JOSEException {

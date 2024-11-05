@@ -1,9 +1,6 @@
 package com.gahoccode.identity_service.controller;
 
-import com.gahoccode.identity_service.dto.request.APIResponse;
-import com.gahoccode.identity_service.dto.request.AuthenticationRequest;
-import com.gahoccode.identity_service.dto.request.IntrospectRequest;
-import com.gahoccode.identity_service.dto.request.LogoutRequest;
+import com.gahoccode.identity_service.dto.request.*;
 import com.gahoccode.identity_service.dto.response.AuthenticationResponse;
 import com.gahoccode.identity_service.dto.response.IntrospectResponse;
 import com.gahoccode.identity_service.service.AuthenticationService;
@@ -45,5 +42,12 @@ public class AuthenticationController {
             authenticationService.logout(request);
             return APIResponse.<Void>builder()
                     .build();
+    }
+    @PostMapping("/refresh")
+    APIResponse<AuthenticationResponse> logout(@RequestBody RefreshRequest request) throws ParseException, JOSEException {
+        var result = authenticationService.refreshToken(request);
+        return APIResponse.<AuthenticationResponse>builder()
+                .result(result)
+                .build();
     }
 }
