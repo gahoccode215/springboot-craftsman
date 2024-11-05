@@ -1,7 +1,7 @@
 package com.gahoccode.identity_service.configuration;
 
-import com.gahoccode.identity_service.entity.Role;
 import com.gahoccode.identity_service.entity.User;
+import com.gahoccode.identity_service.enums.Role;
 import com.gahoccode.identity_service.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -34,12 +34,12 @@ public class ApplicationInitConfig {
     ApplicationRunner applicationRunner(UserRepository userRepository) {
         return args -> {
             if (userRepository.findByUsername(ADMIN_USER_NAME).isEmpty()) {
-                var roles = new HashSet<Role>();
+                var roles = new HashSet<String>();
                 roles.add(Role.ADMIN.name());
                 User user = User.builder()
                         .username(ADMIN_USER_NAME)
                         .password(passwordEncoder.encode(ADMIN_PASSWORD))
-                        .roles(roles)
+                        //.roles(roles)
                         .build();
                 userRepository.save(user);
                 log.warn("admin user has been created with default password: admin, please change it");

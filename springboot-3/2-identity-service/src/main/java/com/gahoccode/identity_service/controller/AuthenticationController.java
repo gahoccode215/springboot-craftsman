@@ -3,6 +3,7 @@ package com.gahoccode.identity_service.controller;
 import com.gahoccode.identity_service.dto.request.APIResponse;
 import com.gahoccode.identity_service.dto.request.AuthenticationRequest;
 import com.gahoccode.identity_service.dto.request.IntrospectRequest;
+import com.gahoccode.identity_service.dto.request.LogoutRequest;
 import com.gahoccode.identity_service.dto.response.AuthenticationResponse;
 import com.gahoccode.identity_service.dto.response.IntrospectResponse;
 import com.gahoccode.identity_service.service.AuthenticationService;
@@ -38,5 +39,11 @@ public class AuthenticationController {
         return APIResponse.<IntrospectResponse>builder()
                 .result(result)
                 .build();
+    }
+    @PostMapping("/logout")
+    APIResponse<Void> logout(@RequestBody LogoutRequest request) throws ParseException, JOSEException {
+            authenticationService.logout(request);
+            return APIResponse.<Void>builder()
+                    .build();
     }
 }
