@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Data
@@ -17,6 +18,6 @@ public class UserResponse {
     String username;
     String firstName;
     String lastName;
-    Date dob;
+    LocalDate dob;
     Set<RoleResponse> roles;
 }
