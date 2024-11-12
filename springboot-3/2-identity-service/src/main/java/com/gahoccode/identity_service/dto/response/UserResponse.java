@@ -1,12 +1,10 @@
 package com.gahoccode.identity_service.dto.response;
 
-import com.gahoccode.identity_service.enums.Role;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Set;
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Data
 @AllArgsConstructor

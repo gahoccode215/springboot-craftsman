@@ -1,11 +1,11 @@
 package com.gahoccode.identity_service.exception;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor
@@ -20,10 +20,8 @@ public enum ErrorCode {
     UNAUTHENTICATED(1006, "Unauthenticated.", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(1007, "You do not have permission.", HttpStatus.FORBIDDEN),
     INVALID_DOB(1008, "Your age must be at least {min}", HttpStatus.BAD_REQUEST),
-    KEY_LENGTH(1009, "The secret length must be at least 256 bits.", HttpStatus.BAD_REQUEST)
-    ;
+    KEY_LENGTH(1009, "The secret length must be at least 256 bits.", HttpStatus.BAD_REQUEST);
     private int code;
     private String message;
     private HttpStatusCode statusCode;
-
 }

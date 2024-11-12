@@ -1,19 +1,21 @@
 package com.gahoccode.identity_service.service;
 
-import com.gahoccode.identity_service.dto.request.UserCreationRequest;
-import com.gahoccode.identity_service.dto.response.UserResponse;
-import com.gahoccode.identity_service.entity.User;
-import com.gahoccode.identity_service.exception.AppException;
-import com.gahoccode.identity_service.repository.UserRepository;
+import java.time.LocalDate;
+
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.junit.jupiter.api.*;
-import java.time.LocalDate;
+
+import com.gahoccode.identity_service.dto.request.UserCreationRequest;
+import com.gahoccode.identity_service.dto.response.UserResponse;
+import com.gahoccode.identity_service.entity.User;
+import com.gahoccode.identity_service.exception.AppException;
+import com.gahoccode.identity_service.repository.UserRepository;
 
 @SpringBootTest
 public class UserServiceTest {
@@ -30,7 +32,7 @@ public class UserServiceTest {
     private LocalDate dob;
 
     @BeforeEach
-    void initData(){
+    void initData() {
         dob = LocalDate.of(1990, 5, 21);
         request = UserCreationRequest.builder()
                 .username("John")
@@ -56,9 +58,10 @@ public class UserServiceTest {
     }
 
     @Test
-    void createUser_validRequest_success(){
+    void createUser_validRequest_success() {
         // WHEN
-        Mockito.when(userRepository.existsByUsername(userResponse.getUsername())).thenReturn(false);
+        Mockito.when(userRepository.existsByUsername(userResponse.getUsername()))
+                .thenReturn(false);
         Mockito.when(userRepository.save(User.builder().build())).thenReturn(user);
 
         // WHEN
@@ -70,12 +73,14 @@ public class UserServiceTest {
     }
 
     @Test
-    void createUser_userExisted_fail(){
+    void createUser_userExisted_fail() {
         // WHEN
-        Mockito.when(userRepository.existsByUsername(userResponse.getUsername())).thenReturn(true);
+        Mockito.when(userRepository.existsByUsername(userResponse.getUsername()))
+                .thenReturn(true);
 
         // WHEN
-        var exception = org.junit.jupiter.api.Assertions.assertThrows(AppException.class, () -> userService.createUser(request));
+        var exception = org.junit.jupiter.api.Assertions.assertThrows(
+                AppException.class, () -> userService.createUser(request));
         Assertions.assertThat(exception.getErrorCode().getCode()).isEqualTo(1002);
     }
 }

@@ -1,17 +1,19 @@
 package com.gahoccode.identity_service.service;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.gahoccode.identity_service.dto.request.PermissionRequest;
 import com.gahoccode.identity_service.dto.response.PermissionResponse;
 import com.gahoccode.identity_service.entity.Permission;
 import com.gahoccode.identity_service.mapper.PermissionMapper;
 import com.gahoccode.identity_service.repository.PermissionRepository;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,16 +22,19 @@ import java.util.List;
 public class PermissionService {
     PermissionRepository permissionRepository;
     PermissionMapper permissionMapper;
-    public PermissionResponse create(PermissionRequest request){
+
+    public PermissionResponse create(PermissionRequest request) {
         Permission permission = permissionMapper.toPermission(request);
         permission = permissionRepository.save(permission);
         return permissionMapper.toPermissionResponse(permission);
     }
-    public List<PermissionResponse> getAll(){
+
+    public List<PermissionResponse> getAll() {
         var permissions = permissionRepository.findAll();
         return permissions.stream().map(permissionMapper::toPermissionResponse).toList();
     }
-    public void delete(String permission){
+
+    public void delete(String permission) {
         permissionRepository.deleteById(permission);
     }
 }
