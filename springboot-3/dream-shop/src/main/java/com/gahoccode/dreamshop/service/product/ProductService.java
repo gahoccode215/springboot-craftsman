@@ -1,19 +1,51 @@
 package com.gahoccode.dreamshop.service.product;
 
 import com.gahoccode.dreamshop.exception.ProductNotFoundException;
+import com.gahoccode.dreamshop.model.Category;
 import com.gahoccode.dreamshop.model.Product;
+import com.gahoccode.dreamshop.repository.category.CategoryRepository;
 import com.gahoccode.dreamshop.repository.product.ProductRepository;
+import com.gahoccode.dreamshop.request.AddProductRequest;
+import com.gahoccode.dreamshop.request.ProductUpdateRequest;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
+@Service
+@RequiredArgsConstructor
 public class ProductService implements IProductService{
 
 
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
-    public Product addProduct(Product product) {
+    public Product addProduct(AddProductRequest request) {
+        // Check if the category is found in the DB
+        // If Yes, set is as the new product category
+        // If No, then save it as a new category
+        // Then set as the new product category
+        Category category = Optional.ofNullable(CategoryRepository.findByName(request.getCategory().getName()))
+                .orElseGet(() -> {
+                    Category newCategory = new Category(request.getCategory().getName());
+                    return categoryRepository.save(newCategory);
+                });
+
         return null;
+    }
+
+    private Product createProduct(AddProductRequest request, Category category){
+        return new Product(
+                request.getName(),
+                request.getBrand(),
+                request.getPrice(),
+                request.getInventory(),
+                request.getDescription(),
+                category
+        );
     }
 
     @Override
@@ -30,8 +62,20 @@ public class ProductService implements IProductService{
     }
 
     @Override
-    public void updateProduct(Product product, Long productId) {
+    public Product updateProduct(ProductUpdateRequest request, Long productId) {
+        return productRepository.findById(productId)
+                .map(existingProduct -> updateExistingProduct(existingProduct, request)).map(productRepository::save).orElseThrow(() -> new ProductNotFoundException("Product not found!"));
+    }
 
+    private Product updateExistingProduct(Product existingProduct, ProductUpdateRequest request){
+        existingProduct.setName(request.getName());
+        existingProduct.setBrand(request.getBrand());
+        existingProduct.setPrice(request.getPrice());
+        existingProduct.setInventory(request.getInventory());
+        existingProduct.setDescription(request.getDescription());
+        Category category = categoryRepository.findByName(request.getCategory().getName());
+        existingProduct.setCategory(category);
+        return existingProduct;
     }
 
     @Override
